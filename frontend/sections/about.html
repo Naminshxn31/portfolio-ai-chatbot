@@ -1,0 +1,56 @@
+<p class="section-label">// who am i</p>
+<h1 class="section-title">About <span>Me</span></h1>
+
+<div class="about-grid">
+  <div class="about-text">
+    <p class="about-bio">
+      สวัสดีครับ ผมโชกุน 👋 จบสถิติจาก <strong>มหาวิทยาลัยเชียงใหม่</strong> GPA 3.54
+      มีความสนใจด้าน AI, NLP และ Data Science
+      กำลังพัฒนาตัวเองไปสู่สาย <strong class="highlight">AI Engineer</strong>
+    </p>
+    <p class="about-bio">
+      ปัจจุบันทำงานที่ <strong>IPSOS Thailand</strong> ด้าน Data Analysis และ Market Research
+      มีประสบการณ์ทำ project ด้าน Machine Learning, NLP และ Time Series Analysis
+    </p>
+    <div class="about-tags">
+      <span class="about-tag">🤖 LLM / AI Engineer</span>
+      <span class="about-tag">🧠 NLP</span>
+      <span class="about-tag">📊 Data Analysis</span>
+      <span class="about-tag">🐍 Python</span>
+    </div>
+  </div>
+
+  <div class="about-stats">
+    <div class="stat-card">
+      <span class="stat-num">3.54</span>
+      <span class="stat-label">GPA</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-num">4+</span>
+      <span class="stat-label">Projects</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-num">1+</span>
+      <span class="stat-label">Years Exp</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-num">23</span>
+      <span class="stat-label">Age</span>
+    </div>
+  </div>
+</div>
+
+<style>
+.about-grid { display: grid; grid-template-columns: 1fr 200px; gap: 40px; align-items: start; }
+.about-bio { color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px; font-size: 15px; }
+.about-bio strong { color: var(--text-primary); }
+.highlight { color: var(--accent) !important; }
+.about-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+.about-tag { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; font-size: 13px; color: var(--text-secondary); }
+.about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 16px; text-align: center; transition: border-color 0.2s; }
+.stat-card:hover { border-color: var(--border-accent); }
+.stat-num { display: block; font-family: var(--font-mono); font-size: 24px; font-weight: 700; color: var(--accent); }
+.stat-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+@media (max-width: 600px) { .about-grid { grid-template-columns: 1fr; } }
+</style>
