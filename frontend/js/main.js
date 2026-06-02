@@ -45,4 +45,4 @@ async function loadSection(name) {
   if (name === 'projects') renderProjects();
 }
 
-['about', 'skills', 'experience', 'projects'].forEach(loadSection);
+['about', 'projects'].forEach(loadSection);

@@ -40,7 +40,8 @@ a { text-decoration: none; color: inherit; }
 .main-content {
   margin-left: var(--sidebar-width);
   flex: 1;
-  min-height: 100vh;
+  height: 100vh;
+  overflow-y: auto;
   background: var(--bg-primary);
   position: relative;
 }

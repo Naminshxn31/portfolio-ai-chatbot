@@ -1,6 +1,7 @@
 <p class="section-label">// who am i</p>
 <h1 class="section-title">About <span>Me</span></h1>
 
+<!-- BIO -->
 <div class="about-grid">
   <div class="about-text">
     <p class="about-bio">
@@ -40,7 +41,111 @@
   </div>
 </div>
 
+<!-- SKILLS -->
+<div class="subsection">
+  <p class="section-label">// what i know</p>
+  <h2 class="section-subtitle">Skills & <span>Tools</span></h2>
+
+  <div class="skills-groups">
+    <div class="skill-group">
+      <h3 class="skill-group-title">AI / Machine Learning</h3>
+      <div class="skill-badges">
+        <span class="badge badge-blue">Claude API</span>
+        <span class="badge badge-blue">OpenAI API</span>
+        <span class="badge badge-blue">LangChain</span>
+        <span class="badge badge-blue">HuggingFace</span>
+        <span class="badge badge-blue">Scikit-learn</span>
+        <span class="badge badge-blue">TensorFlow</span>
+        <span class="badge badge-blue">XGBoost</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h3 class="skill-group-title">NLP</h3>
+      <div class="skill-badges">
+        <span class="badge badge-green">PyThaiNLP</span>
+        <span class="badge badge-green">spaCy</span>
+        <span class="badge badge-green">NLTK</span>
+        <span class="badge badge-green">Transformers</span>
+        <span class="badge badge-green">RAG</span>
+        <span class="badge badge-green">Prompt Engineering</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h3 class="skill-group-title">Data & Statistics</h3>
+      <div class="skill-badges">
+        <span class="badge badge-yellow">Pandas</span>
+        <span class="badge badge-yellow">NumPy</span>
+        <span class="badge badge-yellow">Matplotlib</span>
+        <span class="badge badge-yellow">Seaborn</span>
+        <span class="badge badge-yellow">Power BI</span>
+        <span class="badge badge-yellow">R</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h3 class="skill-group-title">Tools & Deploy</h3>
+      <div class="skill-badges">
+        <span class="badge badge-dim">Python</span>
+        <span class="badge badge-dim">FastAPI</span>
+        <span class="badge badge-dim">Streamlit</span>
+        <span class="badge badge-dim">Git</span>
+        <span class="badge badge-dim">Jupyter</span>
+        <span class="badge badge-dim">Google Colab</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<div class="subsection">
+  <p class="section-label">// where i've been</p>
+  <h2 class="section-subtitle">Experi<span>ence</span></h2>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-header">
+          <div>
+            <h3 class="timeline-title">Data Analyst</h3>
+            <p class="timeline-company">IPSOS (Thailand) Company Limited</p>
+          </div>
+          <span class="timeline-date">2024 — Present</span>
+        </div>
+        <p class="timeline-desc">
+          วิเคราะห์และจัดการข้อมูลสำหรับ Market Research Projects
+          พัฒนา data processing workflow สำหรับงาน reporting
+          และร่วมทำงานกับ system developers และ data analysts
+        </p>
+        <div class="timeline-tags">
+          <span class="t-tag">Python</span><span class="t-tag">Excel</span><span class="t-tag">Market Research</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-header">
+          <div>
+            <h3 class="timeline-title">B.Sc. Statistics</h3>
+            <p class="timeline-company">Chiang Mai University</p>
+          </div>
+          <span class="timeline-date">2020 — 2024</span>
+        </div>
+        <p class="timeline-desc">
+          คณะวิทยาศาสตร์ ภาควิชาสถิติ GPA 3.54
+          ทำ project ด้าน ML, NLP, Time Series และ Statistical Analysis
+        </p>
+        <div class="timeline-tags">
+          <span class="t-tag">Statistics</span><span class="t-tag">R</span><span class="t-tag">Machine Learning</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <style>
+/* BIO */
 .about-grid { display: grid; grid-template-columns: 1fr 200px; gap: 40px; align-items: start; }
 .about-bio { color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px; font-size: 15px; }
 .about-bio strong { color: var(--text-primary); }
@@ -52,5 +157,37 @@
 .stat-card:hover { border-color: var(--border-accent); }
 .stat-num { display: block; font-family: var(--font-mono); font-size: 24px; font-weight: 700; color: var(--accent); }
 .stat-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+
+/* SUBSECTION SPACING */
+.subsection { margin-top: 56px; }
+.section-subtitle { font-size: 24px; font-weight: 600; color: var(--text-primary); margin-bottom: 28px; line-height: 1.2; }
+.section-subtitle span { color: var(--accent); }
+
+/* SKILLS */
+.skills-groups { display: flex; flex-direction: column; gap: 32px; }
+.skill-group-title { font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+.skill-badges { display: flex; flex-wrap: wrap; gap: 8px; }
+.badge { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; border: 1px solid; }
+.badge-blue { background: rgba(79,142,247,0.1); border-color: rgba(79,142,247,0.3); color: #7ab3ff; }
+.badge-green { background: rgba(61,214,140,0.1); border-color: rgba(61,214,140,0.3); color: #5de8a8; }
+.badge-yellow { background: rgba(245,197,66,0.1); border-color: rgba(245,197,66,0.3); color: #f5d066; }
+.badge-dim { background: var(--bg-card); border-color: var(--border); color: var(--text-secondary); }
+
+/* TIMELINE */
+.timeline { position: relative; padding-left: 24px; }
+.timeline::before { content:''; position:absolute; left:0; top:8px; bottom:0; width:1px; background: var(--border); }
+.timeline-item { position: relative; margin-bottom: 40px; }
+.timeline-dot { position:absolute; left:-28px; top:6px; width:10px; height:10px; border-radius:50%; background: var(--accent); border: 2px solid var(--bg-primary); box-shadow: 0 0 10px var(--accent-glow); }
+.timeline-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 20px 24px; transition: border-color 0.2s; }
+.timeline-content:hover { border-color: var(--border-accent); }
+.timeline-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 16px; }
+.timeline-title { font-size: 16px; font-weight: 600; color: var(--text-primary); }
+.timeline-company { font-size: 13px; color: var(--accent); margin-top: 2px; }
+.timeline-date { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); white-space: nowrap; }
+.timeline-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 12px; }
+.timeline-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.t-tag { background: var(--bg-hover); border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; font-size: 11px; color: var(--text-dim); }
+
 @media (max-width: 600px) { .about-grid { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .timeline-header { flex-direction: column; } }
 </style>
