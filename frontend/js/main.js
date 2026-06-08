@@ -7,6 +7,12 @@ function switchSection(target) {
   navItems.forEach(n => n.classList.remove('active'));
   document.getElementById(target).classList.add('active-section');
   document.querySelector(`[data-section="${target}"]`).classList.add('active');
+
+  // Re-trigger scroll reveal for new section
+  setTimeout(initReveal, 100);
+
+  // Scroll to top
+  document.getElementById('mainContent').scrollTop = 0;
 }
 
 navItems.forEach(item => {
@@ -43,6 +49,35 @@ async function loadSection(name) {
   const html = await res.text();
   document.getElementById(`${name}-content`).innerHTML = html;
   if (name === 'projects') renderProjects();
+
+  // Init scroll reveal after content loads
+  initReveal();
 }
 
 ['about', 'projects'].forEach(loadSection);
+
+// ===== SCROLL REVEAL =====
+function initReveal() {
+  const revealElements = document.querySelectorAll('.subsection, .about-grid, .project-card, .timeline-item');
+  revealElements.forEach(el => {
+    if (!el.classList.contains('reveal')) {
+      el.classList.add('reveal');
+    }
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {
+    root: document.getElementById('mainContent'),
+    threshold: 0.1,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+    observer.observe(el);
+  });
+}

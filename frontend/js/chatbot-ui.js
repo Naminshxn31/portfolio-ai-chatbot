@@ -6,7 +6,7 @@ const chatInput = document.getElementById('chatInput');
 const chatSend = document.getElementById('chatSend');
 const chatMessages = document.getElementById('chatMessages');
 
-function openChat() { chatPanel.classList.add('open'); }
+function openChat() { chatPanel.classList.add('open'); chatInput?.focus(); }
 function closeChat() { chatPanel.classList.remove('open'); }
 
 chatToggle?.addEventListener('click', openChat);
@@ -20,30 +20,58 @@ function addMessage(text, role) {
   div.appendChild(p);
   chatMessages.appendChild(div);
   chatMessages.scrollTop = chatMessages.scrollHeight;
+  return div;
 }
+
+let isSending = false;
 
 async function sendMessage() {
   const text = chatInput.value.trim();
-  if (!text) return;
+  if (!text || isSending) return;
+
+  isSending = true;
   chatInput.value = '';
+  chatSend.disabled = true;
+
   addMessage(text, 'user');
-  addMessage('กำลังคิด...', 'bot');
+  const botMsg = addMessage('...', 'bot');
+  botMsg.querySelector('p').classList.add('typing');
 
   try {
-    const res = await fetch('http://localhost:8000/chat', {
+    // Docker: ใช้ /api/chat (Nginx proxy) | local dev: ใช้ localhost:8000/chat
+    const apiUrl = window.location.port === '80' || window.location.port === ''
+      ? '/api/chat'
+      : 'http://localhost:8000/chat';
+
+    const res = await fetch(apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: text })
     });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || `Error ${res.status}`);
+    }
+
     const data = await res.json();
-    chatMessages.lastChild.querySelector('p').textContent = data.reply;
-  } catch {
-    chatMessages.lastChild.querySelector('p').textContent =
-      'Backend ยังไม่ได้เปิดครับ (Step 6-7)';
+    botMsg.querySelector('p').textContent = data.reply;
+  } catch (e) {
+    botMsg.querySelector('p').textContent =
+      e.message === 'Failed to fetch'
+        ? 'Backend ยังไม่ได้เปิด — รัน uvicorn app:app --reload ใน backend/'
+        : `Error: ${e.message}`;
+  } finally {
+    botMsg.querySelector('p').classList.remove('typing');
+    isSending = false;
+    chatSend.disabled = false;
   }
 }
 
 chatSend?.addEventListener('click', sendMessage);
-chatInput?.addEventListener('keypress', e => {
-  if (e.key === 'Enter') sendMessage();
+chatInput?.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
 });

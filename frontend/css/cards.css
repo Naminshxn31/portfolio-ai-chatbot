@@ -13,13 +13,30 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   cursor: default;
+  position: relative;
+  overflow: hidden;
 }
+
+/* Subtle top gradient on hover */
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #555555, #ffffff);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.project-card:hover::before { opacity: 1; }
+
 .project-card:hover {
   border-color: var(--border-accent);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  transform: translateY(-6px);
+  box-shadow:
+    0 16px 48px rgba(0,0,0,0.3),
+    0 0 24px rgba(255, 255, 255, 0.06);
 }
 
 .project-card-header {
@@ -27,28 +44,51 @@
   justify-content: space-between;
   align-items: center;
 }
-.project-icon { font-size: 28px; }
+.project-icon { font-size: 32px; }
 
 .project-status {
   font-family: var(--font-mono);
   font-size: 10px;
-  padding: 3px 10px;
+  padding: 4px 10px;
   border-radius: 20px;
   border: 1px solid;
+  letter-spacing: 0.5px;
 }
-.status-green { background: rgba(61,214,140,0.1); border-color: rgba(61,214,140,0.3); color: var(--green); }
-.status-yellow { background: rgba(245,197,66,0.1); border-color: rgba(245,197,66,0.3); color: var(--yellow); }
-.status-red { background: rgba(247,110,110,0.1); border-color: rgba(247,110,110,0.3); color: var(--red); }
+.status-green { background: rgba(61,214,140,0.08); border-color: rgba(61,214,140,0.25); color: var(--green); }
+.status-yellow { background: rgba(245,197,66,0.08); border-color: rgba(245,197,66,0.25); color: var(--yellow); }
+.status-red { background: rgba(247,110,110,0.08); border-color: rgba(247,110,110,0.25); color: var(--red); }
+
+.project-type {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  border: 1px solid;
+}
+/* Personal Project — green */
+.type-personal {
+  background: rgba(61,214,140,0.08);
+  border-color: rgba(61,214,140,0.25);
+  color: var(--green);
+}
+/* Research — gray */
+.type-research {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.12);
+  color: var(--text-secondary);
+}
 
 .project-title {
   font-size: 16px;
   font-weight: 600;
   color: var(--text-primary);
+  letter-spacing: -0.2px;
 }
 .project-desc {
   font-size: 13px;
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: 1.7;
   flex: 1;
 }
 .project-tags {
@@ -64,6 +104,11 @@
   font-size: 11px;
   color: var(--text-dim);
   font-family: var(--font-mono);
+  transition: all 0.2s;
+}
+.project-card:hover .tag {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--text-secondary);
 }
 .project-links {
   display: flex;
@@ -71,7 +116,7 @@
   margin-top: 4px;
 }
 .btn-outline, .btn-filled {
-  padding: 7px 16px;
+  padding: 8px 18px;
   border-radius: 8px;
   font-size: 12px;
   font-family: var(--font-mono);
@@ -83,10 +128,17 @@
   border: 1px solid var(--border);
   color: var(--text-secondary);
 }
-.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+.btn-outline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+}
 .btn-filled {
   background: var(--accent);
   border: 1px solid var(--accent);
   color: #fff;
 }
-.btn-filled:hover { background: #3a7ae0; }
+.btn-filled:hover {
+  background: #cccccc;
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.3);
+}

@@ -1,39 +1,121 @@
 import os
-from anthropic import Anthropic
+import random
 
-client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-SYSTEM_PROMPT = """คุณคือ AI Assistant ประจำเว็บ Portfolio ของ "โชกุน" — Apirattapon Pimpa
-ตอบเป็นภาษาไทยแบบเป็นกันเอง สุภาพ กระชับ
+# ===== ข้อมูลโชกุน =====
+PROFILE = {
+    "name": "อภิรัฐพล พิมปา (Apirattapon Pimpa)",
+    "nickname": "โชกุน",
+    "age": "24 ปี",
+    "birthday": "31 มกราคม 2545",
+}
 
-ข้อมูลเกี่ยวกับโชกุน:
-- ชื่อจริง: อภิรัตน์พล พิมพา (Apirattapon Pimpa) ชื่อเล่น: โชกุน
-- อายุ 23 ปี
-- จบ B.Sc. Statistics จากมหาวิทยาลัยเชียงใหม่ GPA 3.54
-- ปัจจุบันทำงานที่ IPSOS (Thailand) ตำแหน่ง Data Analyst (2024-ปัจจุบัน)
-- กำลังพัฒนาตัวเองไปสู่สาย AI Engineer
-- สนใจด้าน AI, NLP, Data Science, LLM
+EDUCATION = [
+    "B.Sc. Statistics — มหาวิทยาลัยเชียงใหม่ GPA 3.54 (2020-2024)",
+    "Chiangmai Tzuchi School — สายวิทย์-คณิต GPA 3.23 (2017-2019)",
+]
 
-Skills:
-- AI/ML: Claude API, OpenAI API, LangChain, HuggingFace, Scikit-learn, TensorFlow, XGBoost
-- NLP: PyThaiNLP, spaCy, NLTK, Transformers, RAG, Prompt Engineering
-- Data: Pandas, NumPy, Matplotlib, Seaborn, Power BI, R
-- Tools: Python, FastAPI, Streamlit, Git, Jupyter, Google Colab
+EXPERIENCE = [
+    "Software Developer (Data Scientist) ที่ GoingJesse (มี.ค. 2026 - พ.ค. 2026)",
+    "Data Processing ที่ IPSOS Thailand (ส.ค. 2024 - ม.ค. 2026, 1 ปี 6 เดือน)",
+    "ปัจจุบัน: กำลังมองหาโอกาสใหม่ด้าน Data Science / AI Engineer (Open to Work)",
+]
 
-Projects:
-1. Thai PDF Q&A Bot — RAG chatbot ตอบคำถามจาก PDF ภาษาไทย (LangChain + ChromaDB) [In Progress]
-2. Thai Sentiment Analysis — วิเคราะห์ sentiment ภาษาไทย (PyThaiNLP + HuggingFace) [Completed]
-3. Data Analysis Agent — AI Agent วิเคราะห์ CSV อัตโนมัติ (Claude API + Function Calling) [In Progress]
-4. Export Rubber Forecasting — Time Series พยากรณ์ส่งออกยางพารา (R + ARIMA) [Completed]
+SKILLS = {
+    "ai_llm": ["Gemini API", "Claude API", "RAG", "ChromaDB", "HuggingFace Transformers", "Prompt Engineering"],
+    "ml": ["Scikit-learn", "XGBoost", "LightGBM", "ARIMA", "Prophet", "SHAP", "MLflow", "PyThaiNLP"],
+    "programming": ["Python", "Pandas", "NumPy", "Matplotlib", "Seaborn", "R"],
+    "tools": ["FastAPI", "Streamlit", "Docker", "Git", "Jupyter Notebook", "Power BI", "Excel", "SPSS"],
+}
+
+PROJECTS = [
+    "Thai Job Market AI Agent — CV analyzer + job matcher จาก JobsDB (Gemini + RAG + ChromaDB) [github.com/Naminshxn31/thai-job-agent]",
+    "Procurement ML Pipeline — spend classification, anomaly detection, forecasting, supplier risk + MLflow + SHAP [github.com/Naminshxn31/procurement-ml-pipeline]",
+    "Contract Clause Analyzer — วิเคราะห์สัญญา PDF ไทย/อังกฤษ ด้วย mDeBERTa + Gemini + RAG [github.com/Naminshxn31/contract-analyzer]",
+    "GLM: Binary Logistic Regression Analysis to Medical data (Research)",
+    "GLM: Number of Bicycles crossing Manhattan Bridges, NYC (Research)",
+    "Statistical Research: Chitosan concentrations affecting tissue changes in cantaloupe (Research)",
+    "Time Series: Forecasting Export rubber Quantity of Thailand on COVID-19 (Research)",
+    "Machine Learning: Topic Modeling and Sentiment analysis (Research)",
+]
+
+SYSTEM_PROMPT = f"""คุณคือ AI Assistant ประจำเว็บ Portfolio ของ "โชกุน" — Apirattapon Pimpa
+ตอบเป็นภาษาไทยแบบเป็นกันเอง สุภาพ กระชับ ไม่เกิน 3-4 ประโยค
+
+ข้อมูล:
+- ชื่อ: {PROFILE['name']} ชื่อเล่น: {PROFILE['nickname']} อายุ {PROFILE['age']}
+- การศึกษา: {'; '.join(EDUCATION)}
+- ประสบการณ์: {'; '.join(EXPERIENCE)}
+- AI & LLM: {', '.join(SKILLS['ai_llm'])}
+- ML: {', '.join(SKILLS['ml'])}
+- Programming: {', '.join(SKILLS['programming'])}
+- Projects: {'; '.join(PROJECTS[:3])}
 
 ถ้าถูกถามเรื่องที่ไม่เกี่ยวกับโชกุน ให้ตอบสั้นๆ แล้วชวนกลับมาคุยเรื่อง portfolio"""
 
 
-def chat(message: str) -> str:
-    response = client.messages.create(
-        model="claude-sonnet-4-20250514",
-        max_tokens=512,
-        system=SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": message}],
+# ===== MOCK RESPONSES (ไม่ต้องใช้ API key) =====
+def _match_keywords(message):
+    msg = message.lower()
+
+    if any(w in msg for w in ["ชื่อ", "ใคร", "แนะนำ", "เกี่ยวกับ", "about", "who"]):
+        return f"สวัสดีครับ! ผมชื่อ {PROFILE['nickname']} — {PROFILE['name']} อายุ {PROFILE['age']} จบสถิติจาก มช. GPA 3.54 ตอนนี้กำลังมองหาโอกาสใหม่ด้าน Data Science / AI Engineer ครับ"
+
+    if any(w in msg for w in ["เรียน", "จบ", "การศึกษา", "มหาวิทยาลัย", "gpa", "education"]):
+        return f"โชกุนจบ {EDUCATION[0]} และจบมัธยมจาก {EDUCATION[1]} ครับ"
+
+    if any(w in msg for w in ["ทำงาน", "งาน", "ประสบการณ์", "experience", "work", "company"]):
+        return f"{EXPERIENCE[0]}\n{EXPERIENCE[1]}\n\n{EXPERIENCE[2]}"
+
+    if any(w in msg for w in ["skill", "เก่ง", "ทำอะไรได้", "ความสามารถ", "เครื่องมือ", "tool", "tech"]):
+        ai = ", ".join(SKILLS["ai_llm"])
+        ml = ", ".join(SKILLS["ml"])
+        prog = ", ".join(SKILLS["programming"])
+        return f"AI & LLM: {ai}\n\nML & Statistics: {ml}\n\nProgramming: {prog} ครับ"
+
+    if any(w in msg for w in ["project", "โปรเจกต์", "โปรเจค", "ผลงาน"]):
+        items = "\n".join(f"  {i+1}. {p}" for i, p in enumerate(PROJECTS))
+        return f"โชกุนมี 8 projects:\n{items}"
+
+    if any(w in msg for w in ["python", "nlp", "ml", "machine learning", "ai", "llm", "rag", "gemini"]):
+        ai = ", ".join(SKILLS["ai_llm"])
+        ml = ", ".join(SKILLS["ml"])
+        return f"โชกุนถนัด AI & LLM: {ai}\n\nML: {ml} ครับ"
+
+    if any(w in msg for w in ["ติดต่อ", "contact", "email", "เบอร์"]):
+        return "ติดต่อโชกุนได้ที่ apirattaponnn@gmail.com หรือโทร 096-369-8747 ครับ"
+
+    if any(w in msg for w in ["สวัสดี", "หวัดดี", "hi", "hello", "hey"]):
+        greetings = [
+            "สวัสดีครับ! 👋 มีอะไรอยากรู้เกี่ยวกับโชกุนไหมครับ?",
+            "หวัดดีครับ! ถามเรื่อง skills, projects หรือประสบการณ์ของโชกุนได้เลย",
+            "สวัสดีครับ! ผม AI ประจำ Portfolio ของโชกุน ถามอะไรก็ได้ครับ 😊",
+        ]
+        return random.choice(greetings)
+
+    return "ขอบคุณที่สนใจครับ! ลองถามเกี่ยวกับ skills, projects, ประสบการณ์ หรือการศึกษาของโชกุนดูนะครับ 😊"
+
+
+# ===== GEMINI API =====
+def _chat_gemini(message):
+    from google import genai
+
+    client = genai.Client(api_key=GEMINI_API_KEY)
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=f"{SYSTEM_PROMPT}\n\nUser: {message}",
     )
-    return response.content[0].text
+    return response.text
+
+
+# ===== MAIN FUNCTION =====
+def chat(message: str) -> str:
+    if GEMINI_API_KEY:
+        try:
+            return _chat_gemini(message)
+        except Exception as e:
+            if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
+                return _match_keywords(message) + "\n\n_(ขออภัย AI กำลังพักครับ 😅)_"
+            raise
+    return _match_keywords(message)
