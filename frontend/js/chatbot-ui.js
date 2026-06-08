@@ -38,10 +38,13 @@ async function sendMessage() {
   botMsg.querySelector('p').classList.add('typing');
 
   try {
-    // Docker: ใช้ /api/chat (Nginx proxy) | local dev: ใช้ localhost:8000/chat
-    const apiUrl = window.location.port === '80' || window.location.port === ''
-      ? '/api/chat'
-      : 'http://localhost:8000/chat';
+    // Priority: BACKEND_URL (deploy) → /api/chat (Docker) → localhost (local dev)
+    const BACKEND_URL = 'https://portfolio-ai-chatbot-production.up.railway.app';
+    const apiUrl = BACKEND_URL !== 'REPLACE_WITH_RAILWAY_URL'
+      ? `${BACKEND_URL}/chat`
+      : (window.location.port === '80' || window.location.port === '')
+        ? '/api/chat'
+        : 'http://localhost:8000/chat';
 
     const res = await fetch(apiUrl, {
       method: 'POST',

@@ -115,7 +115,8 @@ def chat(message: str) -> str:
         try:
             return _chat_gemini(message)
         except Exception as e:
-            if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
-                return _match_keywords(message) + "\n\n_(ขออภัย AI กำลังพักครับ 😅)_"
+            err = str(e)
+            if any(code in err for code in ["429", "503", "RESOURCE_EXHAUSTED", "UNAVAILABLE"]):
+                return _match_keywords(message) + "\n\n_(ขออภัย AI กำลังยุ่งครับ ตอบจาก mock แทน 😅)_"
             raise
     return _match_keywords(message)
