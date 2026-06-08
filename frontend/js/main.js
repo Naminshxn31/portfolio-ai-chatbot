@@ -56,6 +56,39 @@ async function loadSection(name) {
 
 ['about', 'projects'].forEach(loadSection);
 
+// ===== CONTACT MODAL =====
+const contactModal = document.getElementById('contactModal');
+const contactBtn = document.getElementById('contactBtn');
+const contactClose = document.getElementById('contactClose');
+const contactForm = document.getElementById('contactForm');
+
+function openContact() {
+  contactModal.classList.add('open');
+  overlay.classList.add('active');
+}
+function closeContact() {
+  contactModal.classList.remove('open');
+  overlay.classList.remove('active');
+}
+
+contactBtn?.addEventListener('click', openContact);
+contactClose?.addEventListener('click', closeContact);
+overlay.addEventListener('click', () => {
+  closeSidebar();
+  closeChat();
+  closeContact();
+});
+
+contactForm?.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const name = document.getElementById('formName').value;
+  const email = document.getElementById('formEmail').value;
+  const message = document.getElementById('formMessage').value;
+  const subject = encodeURIComponent(`Portfolio Contact from ${name}`);
+  const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+  window.location.href = `mailto:apirattaponnn@gmail.com?subject=${subject}&body=${body}`;
+});
+
 // ===== SCROLL REVEAL =====
 function initReveal() {
   const revealElements = document.querySelectorAll('.subsection, .about-grid, .project-card, .timeline-item');
