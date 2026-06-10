@@ -4,6 +4,7 @@ const projects = [
     id: 1,
     title: "Thai Job Market AI Agent",
     description: "AI-powered CV analyzer & job matcher for Thailand IT/Data market. Upload PDF → AI extracts skills, matches real jobs from JobsDB with 0–100% match score, and detects skill gaps.",
+    metrics: ["90 real jobs scraped from JobsDB", "Semantic search via Gemini Embeddings", "Multi-turn agent chat"],
     tags: ["Gemini API", "RAG", "ChromaDB", "FastAPI", "Streamlit", "Docker"],
     type: "Personal Project",
     github: "https://github.com/Naminshxn31/thai-job-agent",
@@ -13,8 +14,9 @@ const projects = [
   {
     id: 2,
     title: "Procurement ML Pipeline",
-    description: "Production-grade ML pipeline for procurement analytics: spend classification, anomaly detection, time series forecasting, and supplier risk scoring with MLflow tracking and SHAP explainability.",
-    tags: ["XGBoost", "ARIMA", "Scikit-learn", "MLflow", "SHAP", "FastAPI"],
+    description: "Production-grade ML pipeline for procurement analytics: spend classification, anomaly detection, time series forecasting, and supplier risk scoring.",
+    metrics: ["Supplier risk AUC 0.970", "Forecast MAPE 7.12% (ARIMA)", "Spend classification F1 0.687"],
+    tags: ["XGBoost", "ARIMA", "MLflow", "SHAP", "FastAPI"],
     type: "Personal Project",
     github: "https://github.com/Naminshxn31/procurement-ml-pipeline",
     demo: null,
@@ -23,7 +25,8 @@ const projects = [
   {
     id: 3,
     title: "Contract Clause Analyzer",
-    description: "AI system that analyzes PDF contracts (Thai & English) using zero-shot NLP classification, LLM risk scoring, and RAG-based Q&A — ask natural language questions about any contract.",
+    description: "AI system that analyzes PDF contracts (Thai & English) using zero-shot NLP classification, LLM risk scoring, and RAG-based Q&A.",
+    metrics: ["Thai & English multilingual support", "Zero-shot accuracy ~75–85%", "RAG Q&A with clause citation"],
     tags: ["Gemini API", "mDeBERTa", "ChromaDB", "RAG", "FastAPI", "Streamlit"],
     type: "Personal Project",
     github: "https://github.com/Naminshxn31/contract-analyzer",
@@ -94,6 +97,10 @@ function renderProjects() {
       </div>
       <h3 class="project-title">${p.title}</h3>
       <p class="project-desc">${p.description}</p>
+      ${p.metrics ? `
+      <div class="project-metrics">
+        ${p.metrics.map(m => `<span class="metric">✦ ${m}</span>`).join('')}
+      </div>` : ''}
       <div class="project-tags">
         ${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}
       </div>

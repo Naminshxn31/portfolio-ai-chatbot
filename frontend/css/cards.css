@@ -80,16 +80,31 @@
 }
 
 .project-title {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 17px;
+  font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.2px;
 }
 .project-desc {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-secondary);
   line-height: 1.7;
   flex: 1;
+}
+.project-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+.metric {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--green);
+  letter-spacing: 0.3px;
 }
 .project-tags {
   display: flex;

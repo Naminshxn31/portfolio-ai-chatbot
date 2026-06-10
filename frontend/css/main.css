@@ -1,22 +1,22 @@
 /* ===== CSS VARIABLES ===== */
 :root {
-  --bg-primary: #0e0e0e;
-  --bg-secondary: #141414;
-  --bg-card: #1a1a1a;
-  --bg-hover: #222222;
+  --bg-primary: #111111;
+  --bg-secondary: #181818;
+  --bg-card: #202020;
+  --bg-hover: #2a2a2a;
   --accent: #ffffff;
-  --accent-dim: #444444;
+  --accent-dim: #555555;
   --accent-glow: rgba(255, 255, 255, 0.08);
   --accent-glow-strong: rgba(255, 255, 255, 0.15);
-  --green: #3dd68c;
-  --yellow: #f5c542;
-  --red: #f76e6e;
-  --purple: #a0a0a0;
-  --text-primary: #ffffff;
-  --text-secondary: #999999;
-  --text-dim: #555555;
-  --border: #252525;
-  --border-accent: rgba(255, 255, 255, 0.15);
+  --green: #4ade80;
+  --yellow: #fbbf24;
+  --red: #f87171;
+  --purple: #b0b0b0;
+  --text-primary: #f5f5f5;
+  --text-secondary: #b0b0b0;
+  --text-dim: #666666;
+  --border: #2e2e2e;
+  --border-accent: rgba(255, 255, 255, 0.18);
   --sidebar-width: 280px;
   --font-mono: 'Space Mono', monospace;
   --font-body: 'DM Sans', sans-serif;
@@ -98,7 +98,7 @@ a { text-decoration: none; color: inherit; }
   opacity: 0.8;
 }
 .section-title {
-  font-size: 36px;
+  font-size: 40px;
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 36px;
